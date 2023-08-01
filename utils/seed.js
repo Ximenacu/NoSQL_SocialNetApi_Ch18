@@ -100,14 +100,6 @@ User.insertMany([
     {userName: 'Xim', email: 'xim@mail.com'}
 ])
 
-// User.create(
-//     {userName: 'Fabs', email: 'fabs@mail.com'}
-// );
-
-// User.insertOne(
-//     {userName: 'U', email: 'U@mail.com'}
-// );
-
 Thought.insertMany([
     {thoughtText: 'I love Game of thrones!',
     userName: 'Fabs' }, 
