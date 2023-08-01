@@ -1,7 +1,8 @@
 const mongoose = require('mongoose');
 
 const reactionSchema = new mongoose.Schema({
-    reactionId: mongoose.Schema.Types.ObjectId, // Default new ObjectID
+    //reactionId: {type: mongoose.Schema.Types.ObjectId, 
+      //  default: () => new Types.ObjectId()}, // Default new ObjectID
     reactionBody: {
         type: String, 
         require: true, 
@@ -12,6 +13,12 @@ const reactionSchema = new mongoose.Schema({
     createdAt: {
         type: Date, 
         default: Date.now }, // Use a getter method to format the timestamp on query
+},
+{
+  toJSON: {
+    getters: true
+  },
+  id: false
 });
 
 const thoughtSchema = new mongoose.Schema({

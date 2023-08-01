@@ -1,4 +1,4 @@
-const {Thought} = require('../models');
+const {Thought, User} = require('../models');
 
 module.exports = {
     async getThoughts(req, res){
@@ -13,6 +13,11 @@ module.exports = {
     async createThought(req, res) {
         try {
           const dbThoughtData = await Thought.create(req.body);
+          const insert = await User.findOneAndUpdate(
+            {userName: req.body.userName}, 
+            {$push: {thoughts: {_id: dbThoughtData._id}}},
+            { new: true }
+          );
           res.json(dbThoughtData);
         } catch (err) {
           res.status(500).json(err);
@@ -70,13 +75,14 @@ module.exports = {
                 console.log("req params: ", req.params);
                 const dbThoughtData = await Thought.findByIdAndUpdate(
                     req.params.ThoughtId, 
-                    {$pull: {reactions: {reactionId: req.params.reactionId}}},
+                    {$pull: {reactions: {_id: req.params.reactionId}}},
                     { new: true }
                 );
                 if (!dbThoughtData) {
-                    return res.status(404).json({ message: 'No Thought or Reaction with the IDs provided' });
+                    return res.status(404).json(
+                        { message: 'No Thought or Reaction with the IDs provided' });
                 } 
-                res.json("done!");
+                res.json(dbThoughtData);
 
             } catch (err) {
                 res.status(500).json(err);

@@ -1,5 +1,21 @@
 const mongoose = require('mongoose');
 
+const friendsSchema = new mongoose.Schema({
+  _id: {
+    type: mongoose.Schema.Types.ObjectId, 
+    default: () => new Types.ObjectId(), 
+    ref: 'User'
+  }
+})
+
+const thoughtsSchema = new mongoose.Schema({
+  _id: {
+    type: mongoose.Schema.Types.ObjectId, 
+    default: () => new Types.ObjectId(), 
+    ref: 'Thought'
+  }
+})
+
 //Schema for Users Collection
 const userSchema = new mongoose.Schema({
     userName: { 
@@ -14,14 +30,8 @@ const userSchema = new mongoose.Schema({
       unique: true 
       //must match valid (mongoose matching validation )
     }, 
-    thoughts: [{
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Thought',
-    }],
-    friends: [{
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'User',
-    }], // array of ID's referencing user model (self reference). 
+    thoughts: [thoughtsSchema],
+    friends: [friendsSchema], // array of ID's referencing user model (self reference). 
 },
 {
   toJSON: {
